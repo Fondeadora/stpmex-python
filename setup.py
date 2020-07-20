@@ -8,6 +8,7 @@ install_requires = [
     'cryptography==2.9.2',
     'cuenca-validations==0.4.2',
     'requests==2.24.0',
+    'clabe==1.2.2',
 ]
 
 test_requires = [
