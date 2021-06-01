@@ -108,7 +108,7 @@ def cuenta_moral_dict():
     yield dict(
         cuenta=generate_new_clabes(1, '6461801570')[0],
         nombre="empresa persona moral",
-        paisNacimiento=Pais.MX,
+        pais=Pais.MX,
         rfcCurp="ABC12345678",
         fechaConstitucion=dt.date(2000, 8, 20),
         entidadFederativa=1,
