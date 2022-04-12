@@ -14,7 +14,7 @@ from cuenca_validations.types import (
 from pydantic import conint, constr, validator
 from pydantic.dataclasses import dataclass
 
-from ..auth import ORDEN_FIELDNAMES
+from ..auth import ORDEN_FIELDNAMES, compute_signature
 from ..exc import NoOrdenesEncontradas
 from ..types import (
     BeneficiarioClabe,
@@ -227,3 +227,34 @@ class Orden(Resource):
                 v = v.rstrip()
             sanitized[k] = v
         return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
+
+
+class OrdenV2(Orden):
+    _endpoint: ClassVar[str] = '/consultaOrden'
+    _firma_fieldnames: ClassVar[List[str]] = ORDEN_FIELDNAMES
+
+    @classmethod
+    def consulta_orden(cls, clave_rastreo: str, operacion: Optional[dt.date] = None):
+        consulta = dict(
+            empresa=cls.empresa,
+            claveRastreo=clave_rastreo,
+            tipoOrden='E',
+        )
+        if operacion:
+            consulta['fechaOperacion'] = operacion
+
+        consulta['firma'] = cls._firma_consultav2(consulta)
+        resp = cls._client.post(cls._endpoint, consulta)['datos'][0]
+        return cls._sanitize_consulta(resp)
+
+    @classmethod
+    def _firma_consultav2(cls, consulta):
+        joined = (
+            f"|||"
+            f"{cls.empresa}|"
+            f"{consulta.get('claveRastreo', '')}|"
+            f"{consulta.get('tipoOrden', '')}"
+            f"{consulta.get('fechaOperacion', '')}||"
+            f"||||||||||||||||||||||||||||||"
+        )
+        return compute_signature(cls._client.pkey, joined)
