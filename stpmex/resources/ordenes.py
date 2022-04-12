@@ -241,7 +241,7 @@ class OrdenV2(Orden):
             tipoOrden='E',
         )
         if operacion:
-            consulta['fechaOperacion'] = operacion
+            consulta['fechaOperacion'] = strftime(operacion)
 
         consulta['firma'] = cls._firma_consultav2(consulta)
         resp = cls._client.post(cls._endpoint, consulta)['datos'][0]
