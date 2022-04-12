@@ -244,8 +244,8 @@ class OrdenV2(Orden):
             consulta['fechaOperacion'] = strftime(operacion)
 
         consulta['firma'] = cls._firma_consultav2(consulta)
-        resp = cls._client.post(cls._endpoint, consulta)['datos'][0]
-        return cls._sanitize_consulta(resp)
+        resp = cls._client.post(cls._endpoint, consulta)
+        return resp
 
     @classmethod
     def _firma_consultav2(cls, consulta):
