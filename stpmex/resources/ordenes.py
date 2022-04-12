@@ -250,11 +250,10 @@ class OrdenV2(Orden):
     @classmethod
     def _firma_consultav2(cls, consulta):
         joined = (
-            f"|||"
+            f"||"
             f"{cls.empresa}|"
             f"{consulta.get('claveRastreo', '')}|"
-            f"{consulta.get('tipoOrden', '')}"
+            f"{consulta.get('tipoOrden', '')}|"
             f"{consulta.get('fechaOperacion', '')}||"
-            f"||||||||||||||||||||||||||||||"
         )
         return compute_signature(cls._client.pkey, joined)
