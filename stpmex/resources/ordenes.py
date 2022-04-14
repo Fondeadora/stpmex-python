@@ -264,7 +264,7 @@ class OrdenEfws(Resource):
             consulta['fechaOperacion'] = strftime(fecha_operacion)
 
         consulta['firma'] = cls._firma_consulta_efws(consulta)
-        resp = cls._client.post(cls._endpoint, consulta)['respuesta']
+        resp = cls._client.post(cls._endpoint, consulta)['datos'][0]
         return cls._sanitize_consulta(resp)
 
     @staticmethod
