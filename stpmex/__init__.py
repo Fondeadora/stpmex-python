@@ -1,4 +1,4 @@
-__all__ = ['__version__', 'Client']
+__all__ = ['__version__', 'Client', 'ClientEfws']
 
-from .client import Client
+from .client import Client, ClientEfws
 from .version import __version__

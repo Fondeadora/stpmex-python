@@ -55,6 +55,10 @@ def test_consulta_ordenes_enviadas(client):
     assert len(enviadas) > 0
 
 
+def test_consulta_ordenes_enviadas(client):
+    enviadas = client.ordenes.consulta_enviadas()
+
+
 @pytest.mark.vcr
 def test_consulta_ordenes_recibidas(client):
     recibidas = client.ordenes.consulta_recibidas()
@@ -79,6 +83,14 @@ def test_consulta_orden_por_clave_rastreo(client):
         'CR1564969083', 90646, dt.date(2020, 4, 20)
     )
     assert orden.claveRastreo == 'CR1564969083'
+
+
+@pytest.mark.vcr
+def test_consulta_orden_por_clave_rastreo_efws(client_efws):
+    orden = client_efws.ordenes.consulta_clave_rastreo_enviada(
+        'CUENCA948945226068'
+    )
+    assert orden.claveRastreo == 'CUENCA948945226068'
 
 
 @pytest.mark.vcr

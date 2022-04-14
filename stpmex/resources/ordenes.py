@@ -229,19 +229,39 @@ class Orden(Resource):
         return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
 
 
-class OrdenV2(Orden):
+class OrdenEfws(Resource):
     _endpoint: ClassVar[str] = '/consultaOrden'
-    _firma_fieldnames: ClassVar[List[str]] = ORDEN_FIELDNAMES
 
     @classmethod
-    def consulta_orden(cls, clave_rastreo: str, operacion: Optional[dt.date] = None):
+    def consulta_clave_rastreo_enviada(
+        cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
+    ):
+        return cls.consulta_orden(
+            clave_rastreo, TipoOperacion.enviada, fecha_operacion
+        )
+
+    @classmethod
+    def consulta_clave_rastreo_recibida(
+        cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
+    ):
+        return cls.consulta_orden(
+            clave_rastreo, TipoOperacion.recibida, fecha_operacion
+        )
+
+    @classmethod
+    def consulta_orden(
+        cls,
+        clave_rastreo: str,
+        tipo: TipoOperacion,
+        fecha_operacion: Optional[dt.date] = None,
+    ):
         consulta = dict(
             empresa=cls.empresa,
             claveRastreo=clave_rastreo,
-            tipoOrden='E',
+            tipoOrden=tipo.value,
         )
-        if operacion:
-            consulta['fechaOperacion'] = strftime(operacion)
+        if fecha_operacion:
+            consulta['fechaOperacion'] = strftime(fecha_operacion)
 
         consulta['firma'] = cls._firma_consultav2(consulta)
         resp = cls._client.post(cls._endpoint, consulta)

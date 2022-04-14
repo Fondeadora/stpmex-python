@@ -4,10 +4,12 @@ import pytest
 import requests_mock
 from clabe import generate_new_clabes
 
-from stpmex import Client
+from stpmex import Client, ClientEfws
 from stpmex.resources import CuentaFisica, Orden
 from stpmex.types import Pais
 
+EMPRESA = 'TAMIZI'
+PKEY_PASSPHRASE = '12345678'
 PKEY = """Bag Attributes
     friendlyName: prueba
     localKeyID: 54 69 6D 65 20 31 33 32 34 35 39 35 30 31 35 33 33 30
@@ -33,9 +35,12 @@ uzF/x9tl2+BdiDjPOhSRuoa1ypilODdpOGKNKuf0vu2jAbbzDILBYOfw
 
 @pytest.fixture
 def client():
-    empresa = 'TAMIZI'
-    pkey_passphrase = '12345678'
-    yield Client(empresa, PKEY, pkey_passphrase, demo=True)
+    yield Client(EMPRESA, PKEY, PKEY_PASSPHRASE, demo=True)
+
+
+@pytest.fixture
+def client_efws():
+    yield ClientEfws(EMPRESA, PKEY, PKEY_PASSPHRASE, demo=True)
 
 
 @pytest.fixture

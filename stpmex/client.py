@@ -27,23 +27,25 @@ from .exc import (
     SignatureValidationError,
     StpmexException,
 )
-from .resources import CuentaFisica, CuentaMoral, Orden, Resource, Saldo
+from .resources import (
+    CuentaFisica,
+    CuentaMoral,
+    Orden,
+    OrdenEfws,
+    Resource,
+    Saldo,
+)
 from .version import __version__ as client_version
 
 DEMO_HOST = 'https://demo.stpmex.com:7024'
+EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
 PROD_HOST = 'https://prod.stpmex.com'
 
 
-class Client:
+class BaseClient:
     base_url: str
-    soap_url: str
-    session: Session
 
-    # resources
-    cuentas: ClassVar = CuentaFisica
-    cuentas_morales: ClassVar = CuentaMoral
-    ordenes: ClassVar = Orden
-    saldos: ClassVar = Saldo
+    session: Session
 
     def __init__(
         self,
@@ -51,8 +53,8 @@ class Client:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
-        base_url: str = None,
-        soap_url: str = None,
+        # base_url: str = None,
+        # soap_url: str = None,
         timeout: tuple = None,
         verify: Union[bool, str] = True,
     ):
@@ -61,13 +63,9 @@ class Client:
         self.session.verify = verify
         self.session.headers['User-Agent'] = f'stpmex-python/{client_version}'
         if demo:
-            host_url = DEMO_HOST
+            self.session.verify = False
         else:
-            host_url = PROD_HOST
-        self.base_url = base_url or f'{host_url}/speiws/rest'
-        self.soap_url = (
-            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
-        )
+            self.session.verify = True
 
         try:
             self.pkey = serialization.load_pem_private_key(
@@ -128,6 +126,56 @@ class Client:
             except (AssertionError, KeyError):
                 ...
         response.raise_for_status()
+
+
+class Client(BaseClient):
+    soap_url: str
+    # resources
+    cuentas: ClassVar = CuentaFisica
+    cuentas_morales: ClassVar = CuentaMoral
+    ordenes: ClassVar = Orden
+    saldos: ClassVar = Saldo
+
+    def __init__(
+        self,
+        empresa: str,
+        priv_key: str,
+        priv_key_passphrase: str,
+        demo: bool = False,
+        base_url: str = None,
+        soap_url: str = None,
+        timeout: tuple = None,
+    ):
+        super().__init__(empresa, priv_key, priv_key_passphrase, demo, timeout)
+        if demo:
+            host_url = DEMO_HOST
+        else:
+            host_url = PROD_HOST
+        self.base_url = base_url or f'{host_url}/speiws/rest'
+        self.soap_url = (
+            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
+        )
+
+
+class ClientEfws(BaseClient):
+    ordenes: ClassVar = OrdenEfws
+
+    def __init__(
+        self,
+        empresa: str,
+        priv_key: str,
+        priv_key_passphrase: str,
+        demo: bool = False,
+        base_url: str = None,
+        timeout: tuple = None,
+    ):
+        super().__init__(empresa, priv_key, priv_key_passphrase, demo, timeout)
+        if demo:
+            host_url = EFWS_DEV_HOST
+        else:
+            host_url = PROD_HOST
+
+        self.base_url = base_url or f'{host_url}/efws/API'
 
 
 def _raise_description_error_exc(resp: Dict) -> NoReturn:
