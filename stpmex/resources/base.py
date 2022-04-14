@@ -33,6 +33,17 @@ class Resource:
         )
         return compute_signature(cls._client.pkey, joined)
 
+    @classmethod
+    def _firma_consulta_efws(cls, consulta):
+        joined = (
+            f"||"
+            f"{cls.empresa}|"
+            f"{consulta.get('claveRastreo', '')}|"
+            f"{consulta.get('tipoOrden', '')}|"
+            f"{consulta.get('fechaOperacion', '')}||"
+        )
+        return compute_signature(cls._client.pkey, joined)
+
     def to_dict(self) -> Dict[str, Any]:
         base = dict()
         for k, v in asdict(self).items():

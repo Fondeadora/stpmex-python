@@ -263,17 +263,25 @@ class OrdenEfws(Resource):
         if fecha_operacion:
             consulta['fechaOperacion'] = strftime(fecha_operacion)
 
-        consulta['firma'] = cls._firma_consultav2(consulta)
-        resp = cls._client.post(cls._endpoint, consulta)
-        return resp
+        consulta['firma'] = cls._firma_consulta_efws(consulta)
+        resp = cls._client.post(cls._endpoint, consulta)['respuesta']
+        return cls._sanitize_consulta(resp)
 
-    @classmethod
-    def _firma_consultav2(cls, consulta):
-        joined = (
-            f"||"
-            f"{cls.empresa}|"
-            f"{consulta.get('claveRastreo', '')}|"
-            f"{consulta.get('tipoOrden', '')}|"
-            f"{consulta.get('fechaOperacion', '')}||"
-        )
-        return compute_signature(cls._client.pkey, joined)
+    @staticmethod
+    def _sanitize_consulta(
+        orden: Dict[str, Any]
+    ) -> 'OrdenConsultada':  # noqa: F821
+        sanitized = {}
+        for k, v in orden.items():
+            if k.startswith('ts'):
+                v /= 10 ** 3  # convertir de milisegundos a segundos
+                if v > 10 ** 9:
+                    v = dt.datetime.fromtimestamp(v)
+            elif k == 'fechaOperacion':
+                v = strptime(v)
+            elif k == 'estado':
+                v = Estado(v)
+            elif isinstance(v, str):
+                v = v.rstrip()
+            sanitized[k] = v
+        return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
