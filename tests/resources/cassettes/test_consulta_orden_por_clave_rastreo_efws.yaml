@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"empresa": "TAMIZI", "claveRastreo": "CUENCA948945226068", "tipoOrden":
-      "E", "firma": "VSK9y9YDlAcnqhwhlgPv1Tu6eB2Erx8BYMGsB3No6hy07wYyPOAx4rvomgFDX56+vd5LUffT+5RlsBk1dvgmjRadOsrYkZLzL0nbfxkVZdIGM7r4hs1iTX7QXvbrJshKJihja6q9h1fyzyNb5Zj11nZPQngYNg9bWjhYypKAYfk="}'
+    body: '{"empresa": "TAMIZI", "claveRastreo": "CUENCA463814035196", "tipoOrden":
+      "E", "fechaOperacion": "20220418", "firma": "PIjV3hH8nebBlfvB5IZyjDfCuIwCeHKj4Gc0+uhUgwKbCYZjfRW6+Qa22n8CNhoZLZZe15jdSnjcT7g4UHIfmIPdv3iJlix/OVM/FzOIXL0lBrn40NTaJeBrqNZMKS5dMBPqc8NDib1IsoV7NZlUcfMa4JsDdQe3HQ8dRm7yZMc="}'
     headers:
       Accept:
       - '*/*'
@@ -10,11 +10,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '262'
+      - '292'
       Content-Type:
       - application/json
       User-Agent:
-      - stpmex-python/3.10.0.dev9
+      - stpmex-python/3.10.0.dev12
     method: POST
     uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
   response:
@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 14 Apr 2022 01:09:22 GMT
+      - Mon, 18 Apr 2022 15:19:08 GMT
       Server:
       - nginx/1.14.1
       Transfer-Encoding:

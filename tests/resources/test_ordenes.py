@@ -88,9 +88,9 @@ def test_consulta_orden_por_clave_rastreo(client):
 @pytest.mark.vcr
 def test_consulta_orden_por_clave_rastreo_efws(client_efws):
     orden = client_efws.ordenes.consulta_clave_rastreo_enviada(
-        'CUENCA948945226068'
+        'CUENCA463814035196', dt.date(2022, 4, 18)
     )
-    assert orden.claveRastreo == 'CUENCA948945226068'
+    assert orden.claveRastreo == 'CUENCA463814035196'
 
 
 @pytest.mark.vcr
