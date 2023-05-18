@@ -264,8 +264,12 @@ class OrdenEfws(Resource):
             consulta['fechaOperacion'] = strftime(fecha_operacion)
 
         consulta['firma'] = cls._firma_consulta_efws(consulta)
-        resp = cls._client.post(cls._endpoint, consulta)['datos'][0]
-        return cls._sanitize_consulta(resp)
+        resp = cls._client.post(cls._endpoint, consulta)
+        return cls._sanitize_consulta(resp['respuesta'])
+
+    @classmethod
+    def consulta_ordenes(cls):
+        ...
 
     @staticmethod
     def _sanitize_consulta(
@@ -273,14 +277,16 @@ class OrdenEfws(Resource):
     ) -> 'OrdenConsultada':  # noqa: F821
         sanitized = {}
         for k, v in orden.items():
-            if k.startswith('ts'):
+            if v is None:
+                v = None
+            elif k.startswith('ts'):
                 v /= 10 ** 3  # convertir de milisegundos a segundos
                 if v > 10 ** 9:
                     v = dt.datetime.fromtimestamp(v)
             elif k == 'fechaOperacion':
                 v = strptime(v)
             elif k == 'estado':
-                v = Estado(v)
+                v = Estado(str(v))
             elif isinstance(v, str):
                 v = v.rstrip()
             sanitized[k] = v

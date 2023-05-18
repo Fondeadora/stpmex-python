@@ -1,0 +1,42 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "claveRastreo": "CUENCA0000192923", "tipoOrden":
+      "E", "fechaOperacion": "20230518", "firma": "qWebbX+APkSkj1lPuC++h4C9oZdMyJVNznsITJVelkbMMDkrxKoGX/YaLxIIC+IFWeCjvlSRsOQrdDv/bORrRyVwWWxqi9WULSueqDy5IGOndFnXo7k36MX0b05WPgKdCgDNwqtbqmRnZLVUesQFChrUqqZyCQL9+zwyan65WQU="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '290'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.10.0.dev12
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
+  response:
+    body:
+      string: '{"estado":0,"mensaje":"Datos consultados correctamente","respuesta":{"idEF":9681565,"claveRastreo":"CUENCA0000192923","conceptoPago":"test1","cuentaBeneficiario":"072691004508535517","cuentaOrdenante":"646180157093203384","empresa":"TAMIZI","estado":"A","fechaOperacion":20230518,"institucionContraparte":40072,"institucionOperante":90646,"medioEntrega":3,"monto":10.90,"nombreBeneficiario":"Felipe
+        Lopez","nombreOrdenante":"FELIPE LOPEZ HERNANDEZ","nombreCep":null,"rfcCep":null,"sello":"tp48qXO8HCsZwREL5xOPF9J6Zy9JJoQ/ybtRsTtCwGj7Y7e6T6/MWS4O0dUxN1jOSvv5660R8zGstGQuuXOKDw==","rfcCurpBeneficiario":"ND","referenciaNumerica":5588776,"rfcCurpOrdenante":"LOHF890619HCSPRL05","tipoCuentaBeneficiario":40,"tipoCuentaOrdenante":40,"tipoPago":1,"tsCaptura":1684442273848,"tsLiquidacion":null,"causaDevolucion":null,"urlCEP":null}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 18 May 2023 20:38:34 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - Access-Control-Request-Method
+      - Access-Control-Request-Headers
+    status:
+      code: 200
+      message: OK
+version: 1

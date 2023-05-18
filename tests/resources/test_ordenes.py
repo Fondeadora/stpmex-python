@@ -86,11 +86,20 @@ def test_consulta_orden_por_clave_rastreo(client):
 
 
 @pytest.mark.vcr
-def test_consulta_orden_por_clave_rastreo_efws(client_efws):
+def test_consulta_orden_por_clave_rastreo_enviada_efws(client_efws):
     orden = client_efws.ordenes.consulta_clave_rastreo_enviada(
-        'CUENCA463814035196', dt.date(2022, 4, 18)
+        'CUENCA0000192923', dt.date(2023, 5, 18)
     )
-    assert orden.claveRastreo == 'CUENCA463814035196'
+    assert orden.claveRastreo == 'CUENCA0000192923'
+
+
+@pytest.mark.vcr
+def test_consulta_orden_recibida_por_clave_rastreo_efws(client_efws):
+    orden = client_efws.ordenes.consulta_clave_rastreo_recibida(
+        'APZ450057199641', dt.date(2023, 5, 17)
+    )
+    assert orden.claveRastreo == 'APZ450057199641'
+    assert orden.monto == 0.1
 
 
 @pytest.mark.vcr

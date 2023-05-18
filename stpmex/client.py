@@ -53,8 +53,6 @@ class BaseClient:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
-        # base_url: str = None,
-        # soap_url: str = None,
         timeout: tuple = None,
         verify: Union[bool, str] = True,
     ):
