@@ -103,6 +103,17 @@ def test_consulta_orden_recibida_por_clave_rastreo_efws(client_efws):
 
 
 @pytest.mark.vcr
+def test_consulta_orden_recibida_por_clave_rastreo_dia_operacion_efws(
+    client_efws,
+):
+    orden = client_efws.ordenes.consulta_clave_rastreo_recibida(
+        'TESTJSH5018035039'
+    )
+    assert orden.claveRastreo == 'TESTJSH5018035039'
+    assert orden.monto == 1.0
+
+
+@pytest.mark.vcr
 def test_consulta_orden_por_clave_rastreo_recibida(client):
     orden = client.ordenes.consulta_clave_rastreo(
         'CR1564969083', 40072, dt.date(2020, 4, 20)

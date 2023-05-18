@@ -1,0 +1,42 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "claveRastreo": "TESTJSH5018035039", "tipoOrden":
+      "R", "firma": "u0xVejoj5SHEWx2fBWDKtX6iLbqtQUhKqv/cfYeTNOeCWlxZaZhfb0uBXKv58QR9pckBojFHVhmGFoRgjZbLPhfF5a3s39fXZ4GnmFE5TwTRnOmH8t7kZjOu4CIPjgAFYdrUR8d+AHWoCiSAZDWby6lCxH7b8Hz6B+s9ypHUs/g="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '261'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.10.0.dev12
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
+  response:
+    body:
+      string: '{"estado":0,"mensaje":"Datos consultados correctamente","respuesta":{"idEF":7801696,"claveRastreo":"TESTJSH5018035039","conceptoPago":"Aceptacion","cuentaBeneficiario":"646180157018877012","cuentaOrdenante":"646180151700000009","empresa":"TAMIZI","estado":"TLQ","fechaOperacion":20230518,"institucionContraparte":90646,"institucionOperante":90646,"medioEntrega":3,"monto":1.00,"nombreBeneficiario":"Maria
+        Alejandra Rafols Verger","nombreOrdenante":"RED_GIRASOL","nombreCep":null,"rfcCep":"TCU200828RX8","sello":null,"rfcCurpBeneficiario":"COVJ980806","referenciaNumerica":123456,"rfcCurpOrdenante":"ND","tipoCuentaBeneficiario":40,"tipoCuentaOrdenante":40,"tipoPago":1,"tsCaptura":1684443040683,"tsLiquidacion":1684443066405,"causaDevolucion":null,"urlCEP":"https://www.banxico.org.mx/cep/go?i=90646&s=20210302&d=UeyxUDUvk7tVw7e2oHfZDd0OLEy6LQOjH%2FplFRIWkmuZhIldk77k9LNti7FrIh%2FLuDJvdloHczG5CvS84M%2FGf1rdzJauEzW0glVKa0%2Fnwxs%3D"}}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 18 May 2023 21:32:47 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - Access-Control-Request-Method
+      - Access-Control-Request-Headers
+    status:
+      code: 200
+      message: OK
+version: 1
