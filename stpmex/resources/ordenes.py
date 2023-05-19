@@ -267,7 +267,6 @@ class OrdenEfws(Resource):
         resp = cls._client.post(cls._endpoint, consulta)
         return cls._sanitize_consulta(resp['respuesta'])
 
-
     @staticmethod
     def _sanitize_consulta(
         orden: Dict[str, Any]

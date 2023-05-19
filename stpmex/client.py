@@ -143,8 +143,11 @@ class Client(BaseClient):
         base_url: str = None,
         soap_url: str = None,
         timeout: tuple = None,
+        verify: Union[bool, str] = True,
     ):
-        super().__init__(empresa, priv_key, priv_key_passphrase, demo, timeout)
+        super().__init__(
+            empresa, priv_key, priv_key_passphrase, demo, timeout, verify
+        )
         if demo:
             host_url = DEMO_HOST
         else:
@@ -166,8 +169,11 @@ class ClientEfws(BaseClient):
         demo: bool = False,
         base_url: str = None,
         timeout: tuple = None,
+        verify: Union[bool, str] = True,
     ):
-        super().__init__(empresa, priv_key, priv_key_passphrase, demo, timeout)
+        super().__init__(
+            empresa, priv_key, priv_key_passphrase, demo, timeout, verify
+        )
         if demo:
             host_url = EFWS_DEV_HOST
         else:
