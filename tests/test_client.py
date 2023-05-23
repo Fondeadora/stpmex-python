@@ -191,6 +191,28 @@ def test_errors(
     assert str(exc)
 
 
+@pytest.mark.parametrize(
+    'client_mock,endpoint,expected_exc',
+    [
+        (
+            dict(mensaje='unknown code', estado=999999),
+            '/efws/API/consultaOrden',
+            StpmexException,
+        )
+    ],
+    indirect=['client_mock'],
+)
+def test_client_efws_errors(
+    client_mock: Client, endpoint: str, expected_exc: type
+):
+    with pytest.raises(expected_exc) as exc_info:
+        client_mock.post(endpoint, dict(firma='foo'))
+
+    exc = exc_info.value
+    assert repr(exc)
+    assert str(exc)
+
+
 @pytest.mark.vcr
 def test_account_registration(client) -> None:
     client = Client('TAMIZI', PKEY, '12345678')

@@ -45,6 +45,7 @@ def client_mock(request):
 
     with requests_mock.mock() as m:
         m.put(requests_mock.ANY, json=request.param)
+        m.post(requests_mock.ANY, json=request.param)
         yield Client(empresa, PKEY, pkey_passphrase, demo=True)
 
 
