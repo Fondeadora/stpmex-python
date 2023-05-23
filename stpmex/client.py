@@ -9,6 +9,7 @@ from requests import Response, Session
 
 from .exc import (
     AccountDoesNotExist,
+    BadRequest,
     BankCodeClabeMismatch,
     ClaveRastreoAlreadyInUse,
     DuplicatedAccount,
@@ -242,6 +243,8 @@ def _raise_description_exc(resp: Dict) -> NoReturn:
 
 
 def _raise_message_error(resp: Dict) -> NoReturn:
+    if resp['estado'] == 2:
+        raise BadRequest(**resp)
     if resp['estado'] == 6:
         raise ResultsNotFound(**resp)
     else:

@@ -104,3 +104,7 @@ class NoEntityFound(StpmexException):
 
 class ResultsNotFound(StpmexException):
     """No se encontraron datos relacionados"""
+
+
+class BadRequest(StpmexException):
+    """No se encontraron datos relacionados"""

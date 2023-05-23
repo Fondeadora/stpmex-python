@@ -8,7 +8,7 @@ from cuenca_validations.typing import DictStrAny
 from pydantic import ValidationError
 
 from stpmex import Client
-from stpmex.exc import NoOrdenesEncontradas, ResultsNotFound
+from stpmex.exc import BadRequest, NoOrdenesEncontradas, ResultsNotFound
 from stpmex.resources import Orden
 from stpmex.types import TipoCuenta
 
@@ -106,6 +106,16 @@ def test_consulta_orden_recibida_por_clave_rastreo_not_found_efws(client):
         )
     assert exc.value.estado == 6
     assert exc.value.mensaje == 'No se encontraron datos relacionados'
+
+
+@pytest.mark.vcr
+def test_consulta_orden_recibida_bad_request_efws(client):
+    with pytest.raises(BadRequest) as exc:
+        client.ordenes_v2.consulta_clave_rastreo_recibida('')
+    assert exc.value.estado == 2
+    assert exc.value.mensaje == (
+        '{claveRastreo=el campo clave de rastreo no puede venir vacio}'
+    )
 
 
 @pytest.mark.vcr

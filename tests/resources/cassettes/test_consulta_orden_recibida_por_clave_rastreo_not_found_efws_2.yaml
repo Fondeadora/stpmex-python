@@ -1,0 +1,41 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "claveRastreo": "", "tipoOrden": "R", "firma": "NZo6hD/u6YzcYFyWLG7UsksRbQpx0Lg9rQH7bq7SPVT+UhKNJR5EoxBczLy8CIVEKhMp73qY2Q5Fd6GZPkdtTJg2Q+VYN34s9Nxliu2QNWCfGi8ORmM+CbJeK6BaOoyfDA1lb2Ut7ihG6+AD5Rw0i1CXps+eVgIjO+sDH3b9GRg="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '244'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.10.0.dev16
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
+  response:
+    body:
+      string: '{"estado":2,"mensaje":"{claveRastreo=el campo clave de rastreo no puede
+        venir vacio}"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 23 May 2023 18:06:40 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - Access-Control-Request-Method
+      - Access-Control-Request-Headers
+    status:
+      code: 400
+      message: Bad Request
+version: 1
