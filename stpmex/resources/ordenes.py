@@ -1,8 +1,8 @@
 import datetime as dt
 import random
 import time
-from dataclasses import field, make_dataclass
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from dataclasses import field
+from typing import ClassVar, List, Optional, Union
 
 import clabe
 from clabe.types import Clabe
@@ -14,21 +14,21 @@ from cuenca_validations.types import (
 from pydantic import conint, constr, validator
 from pydantic.dataclasses import dataclass
 
-from ..auth import ORDEN_FIELDNAMES, compute_signature
+from ..auth import ORDEN_FIELDNAMES
 from ..exc import NoOrdenesEncontradas
 from ..types import (
     BeneficiarioClabe,
-    Estado,
     MxPhoneNumber,
     Prioridad,
     TipoCuenta,
     TipoOperacion,
     truncated_str,
 )
-from ..utils import strftime, strptime
+from ..utils import strftime
 from .base import Resource
 
 STP_BANK_CODE = 90646
+EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
 
 
 @dataclass
@@ -209,28 +209,9 @@ class Orden(Resource):
             raise NoOrdenesEncontradas
         return orden
 
-    @staticmethod
-    def _sanitize_consulta(
-        orden: Dict[str, Any]
-    ) -> 'OrdenConsultada':  # noqa: F821
-        sanitized = {}
-        for k, v in orden.items():
-            if k.startswith('ts'):
-                v /= 10 ** 3  # convertir de milisegundos a segundos
-                if v > 10 ** 9:
-                    v = dt.datetime.fromtimestamp(v)
-            elif k == 'fechaOperacion':
-                v = strptime(v)
-            elif k == 'estado':
-                v = Estado(v)
-            elif isinstance(v, str):
-                v = v.rstrip()
-            sanitized[k] = v
-        return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
-
 
 class OrdenEfws(Resource):
-    _endpoint: ClassVar[str] = '/consultaOrden'
+    _endpoint: ClassVar[str] = '/efws/API/consultaOrden'
 
     @classmethod
     def consulta_clave_rastreo_enviada(
@@ -264,26 +245,7 @@ class OrdenEfws(Resource):
             consulta['fechaOperacion'] = strftime(fecha_operacion)
 
         consulta['firma'] = cls._firma_consulta_efws(consulta)
-        resp = cls._client.post(cls._endpoint, consulta)
-        return cls._sanitize_consulta(resp['respuesta'])
+        base_url = EFWS_DEV_HOST if cls._client.demo else None
 
-    @staticmethod
-    def _sanitize_consulta(
-        orden: Dict[str, Any]
-    ) -> 'OrdenConsultada':  # noqa: F821
-        sanitized = {}
-        for k, v in orden.items():
-            if v is None:
-                v = None
-            elif k.startswith('ts'):
-                v /= 10 ** 3  # convertir de milisegundos a segundos
-                if v > 10 ** 9:
-                    v = dt.datetime.fromtimestamp(v)
-            elif k == 'fechaOperacion':
-                v = strptime(v)
-            elif k == 'estado':
-                v = Estado(str(v))
-            elif isinstance(v, str):
-                v = v.rstrip()
-            sanitized[k] = v
-        return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
+        resp = cls._client.post(cls._endpoint, consulta, base_url=base_url)
+        return cls._sanitize_consulta(resp['respuesta'])

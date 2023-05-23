@@ -4,7 +4,7 @@ import pytest
 import requests_mock
 from clabe import generate_new_clabes
 
-from stpmex import Client, ClientEfws
+from stpmex import Client
 from stpmex.resources import CuentaFisica, Orden
 from stpmex.types import Pais
 
@@ -36,11 +36,6 @@ uzF/x9tl2+BdiDjPOhSRuoa1ypilODdpOGKNKuf0vu2jAbbzDILBYOfw
 @pytest.fixture
 def client():
     yield Client(EMPRESA, PKEY, PKEY_PASSPHRASE, demo=True)
-
-
-@pytest.fixture
-def client_efws():
-    yield ClientEfws(EMPRESA, PKEY, PKEY_PASSPHRASE, demo=True)
 
 
 @pytest.fixture

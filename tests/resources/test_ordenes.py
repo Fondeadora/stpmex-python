@@ -55,10 +55,6 @@ def test_consulta_ordenes_enviadas(client):
     assert len(enviadas) > 0
 
 
-def test_consulta_ordenes_enviadas(client):
-    enviadas = client.ordenes.consulta_enviadas()
-
-
 @pytest.mark.vcr
 def test_consulta_ordenes_recibidas(client):
     recibidas = client.ordenes.consulta_recibidas()
@@ -86,16 +82,16 @@ def test_consulta_orden_por_clave_rastreo(client):
 
 
 @pytest.mark.vcr
-def test_consulta_orden_por_clave_rastreo_enviada_efws(client_efws):
-    orden = client_efws.ordenes.consulta_clave_rastreo_enviada(
+def test_consulta_orden_por_clave_rastreo_enviada_efws(client):
+    orden = client.ordenes_v2.consulta_clave_rastreo_enviada(
         'CUENCA0000192923', dt.date(2023, 5, 18)
     )
     assert orden.claveRastreo == 'CUENCA0000192923'
 
 
 @pytest.mark.vcr
-def test_consulta_orden_recibida_por_clave_rastreo_efws(client_efws):
-    orden = client_efws.ordenes.consulta_clave_rastreo_recibida(
+def test_consulta_orden_recibida_por_clave_rastreo_efws(client):
+    orden = client.ordenes_v2.consulta_clave_rastreo_recibida(
         'APZ450057199641', dt.date(2023, 5, 17)
     )
     assert orden.claveRastreo == 'APZ450057199641'
@@ -104,9 +100,9 @@ def test_consulta_orden_recibida_por_clave_rastreo_efws(client_efws):
 
 @pytest.mark.vcr
 def test_consulta_orden_recibida_por_clave_rastreo_dia_operacion_efws(
-    client_efws,
+    client,
 ):
-    orden = client_efws.ordenes.consulta_clave_rastreo_recibida(
+    orden = client.ordenes_v2.consulta_clave_rastreo_recibida(
         'TESTJSH5018035039'
     )
     assert orden.claveRastreo == 'TESTJSH5018035039'

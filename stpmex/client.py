@@ -1,5 +1,5 @@
 import re
-from typing import Any, ClassVar, Dict, List, NoReturn, Union
+from typing import Any, ClassVar, Dict, List, NoReturn, Optional, Union
 
 from cryptography.exceptions import UnsupportedAlgorithm
 from cryptography.hazmat.backends import default_backend
@@ -46,6 +46,7 @@ class BaseClient:
     base_url: str
 
     session: Session
+    demo: bool
 
     def __init__(
         self,
@@ -60,6 +61,7 @@ class BaseClient:
         self.session = Session()
         self.session.verify = verify
         self.session.headers['User-Agent'] = f'stpmex-python/{client_version}'
+        self.demo = demo
         if demo:
             self.session.verify = False
         else:
@@ -77,9 +79,9 @@ class BaseClient:
         Resource._client = self
 
     def post(
-        self, endpoint: str, data: Dict[str, Any]
+        self, endpoint: str, data: Dict[str, Any], **kwargs
     ) -> Union[Dict[str, Any], List[Any]]:
-        return self.request('post', endpoint, data)
+        return self.request('post', endpoint, data, **kwargs)
 
     def put(
         self, endpoint: str, data: Dict[str, Any]
@@ -92,9 +94,15 @@ class BaseClient:
         return self.request('delete', endpoint, data)
 
     def request(
-        self, method: str, endpoint: str, data: Dict[str, Any], **kwargs: Any
+        self,
+        method: str,
+        endpoint: str,
+        data: Dict[str, Any],
+        base_url: Optional[str] = None,
+        **kwargs: Any,
     ) -> Union[Dict[str, Any], List[Any]]:
-        url = self.base_url + endpoint
+        base_url = base_url or self.base_url
+        url = base_url + endpoint
         response = self.session.request(
             method,
             url,
@@ -132,6 +140,7 @@ class Client(BaseClient):
     cuentas: ClassVar = CuentaFisica
     cuentas_morales: ClassVar = CuentaMoral
     ordenes: ClassVar = Orden
+    ordenes_v2: ClassVar = OrdenEfws
     saldos: ClassVar = Saldo
 
     def __init__(
@@ -156,30 +165,6 @@ class Client(BaseClient):
         self.soap_url = (
             soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
         )
-
-
-class ClientEfws(BaseClient):
-    ordenes: ClassVar = OrdenEfws
-
-    def __init__(
-        self,
-        empresa: str,
-        priv_key: str,
-        priv_key_passphrase: str,
-        demo: bool = False,
-        base_url: str = None,
-        timeout: tuple = None,
-        verify: Union[bool, str] = True,
-    ):
-        super().__init__(
-            empresa, priv_key, priv_key_passphrase, demo, timeout, verify
-        )
-        if demo:
-            host_url = EFWS_DEV_HOST
-        else:
-            host_url = PROD_HOST
-
-        self.base_url = base_url or f'{host_url}/efws/API'
 
 
 def _raise_description_error_exc(resp: Dict) -> NoReturn:
