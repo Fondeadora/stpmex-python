@@ -1,0 +1,41 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "claveRastreo": "APZ11111111111", "tipoOrden": "R",
+      "fechaOperacion": "20230517", "firma": "Zdww/1JGDsjp45N10CeVZOAj5nxky1fX/w79aIYrefmhnNlflJqXY7DcGboJ0KsGB0yD8t7plVd78paYWtet/69SMkCc6k6Ug6qpGZuMjBsjaY8KcnvOySlf+UUVaDwvGhUhyReag6X7bZt6hsAvUs74IzJHTgWpEZCOFrd4fP4="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '288'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.10.0.dev16
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
+  response:
+    body:
+      string: '{"estado":6,"mensaje":"No se encontraron datos relacionados"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 23 May 2023 17:51:42 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - Access-Control-Request-Method
+      - Access-Control-Request-Headers
+    status:
+      code: 400
+      message: Bad Request
+version: 1

@@ -1,4 +1,5 @@
 import re
+from json import JSONDecodeError
 from typing import Any, ClassVar, Dict, List, NoReturn, Optional, Union
 
 from cryptography.exceptions import UnsupportedAlgorithm
@@ -23,6 +24,7 @@ from .exc import (
     NoOrdenesEncontradas,
     NoServiceResponse,
     PldRejected,
+    ResultsNotFound,
     SameAccount,
     SignatureValidationError,
     StpmexException,
@@ -118,10 +120,15 @@ class BaseClient:
 
     @staticmethod
     def _check_response(response: Response) -> None:
-        if not response.ok:
+        # if not response.ok:
+        #     response.raise_for_status()
+        try:
+            resp = response.json()
+        except JSONDecodeError:
             response.raise_for_status()
-        resp = response.json()
+
         if isinstance(resp, dict):
+            # breakpoint()
             try:
                 _raise_description_error_exc(resp)
             except KeyError:
@@ -131,6 +138,14 @@ class BaseClient:
                 _raise_description_exc(resp)
             except (AssertionError, KeyError):
                 ...
+
+            try:
+                assert resp['estado'] != 0
+                assert resp['mensaje']
+                _raise_message_error(resp)
+            except (AssertionError, KeyError):
+                ...
+
         response.raise_for_status()
 
 
@@ -222,5 +237,12 @@ def _raise_description_exc(resp: Dict) -> NoReturn:
         raise DuplicatedAccount(**resp)
     elif id == 5 and re.match(r'El campo .* obligatorio \w+', desc):
         raise MandatoryField(**resp)
+    else:
+        raise StpmexException(**resp)
+
+
+def _raise_message_error(resp: Dict) -> NoReturn:
+    if resp['estado'] == 6:
+        raise ResultsNotFound(**resp)
     else:
         raise StpmexException(**resp)
