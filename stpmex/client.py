@@ -121,15 +121,12 @@ class BaseClient:
 
     @staticmethod
     def _check_response(response: Response) -> None:
-        # if not response.ok:
-        #     response.raise_for_status()
         try:
             resp = response.json()
         except JSONDecodeError:
             response.raise_for_status()
 
         if isinstance(resp, dict):
-            # breakpoint()
             try:
                 _raise_description_error_exc(resp)
             except KeyError:
