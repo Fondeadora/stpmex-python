@@ -8,7 +8,7 @@ from ..utils import strftime, strptime
 
 
 class Resource:
-    _client: ClassVar['stpmex.BaseClient']  # noqa: F821
+    _client: ClassVar['stpmex.Client']  # noqa: F821
     _endpoint: ClassVar[str]
     _firma_fieldnames: ClassVar[List[str]]
     empresa: ClassVar[str]
