@@ -102,9 +102,9 @@ class NoEntityFound(StpmexException):
     """No se encuentra una transacción"""
 
 
-class ResultsNotFound(StpmexException):
+class EmptyResultsError(StpmexException):
     """No se encontraron datos relacionados"""
 
 
-class BadRequest(StpmexException):
+class BadRequestError(StpmexException):
     """No se encontraron datos relacionados"""

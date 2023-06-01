@@ -210,7 +210,7 @@ class Orden(Resource):
         return orden
 
 
-class OrdenEfws(Resource):
+class OrdenV2(Resource):
     _endpoint: ClassVar[str] = '/efws/API/consultaOrden'
 
     @classmethod

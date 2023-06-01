@@ -9,10 +9,11 @@ from requests import Response, Session
 
 from .exc import (
     AccountDoesNotExist,
-    BadRequest,
+    BadRequestError,
     BankCodeClabeMismatch,
     ClaveRastreoAlreadyInUse,
     DuplicatedAccount,
+    EmptyResultsError,
     InvalidAccountType,
     InvalidAmount,
     InvalidField,
@@ -25,7 +26,6 @@ from .exc import (
     NoOrdenesEncontradas,
     NoServiceResponse,
     PldRejected,
-    ResultsNotFound,
     SameAccount,
     SignatureValidationError,
     StpmexException,
@@ -34,22 +34,28 @@ from .resources import (
     CuentaFisica,
     CuentaMoral,
     Orden,
-    OrdenEfws,
+    OrdenV2,
     Resource,
     Saldo,
 )
 from .version import __version__ as client_version
 
 DEMO_HOST = 'https://demo.stpmex.com:7024'
-EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
 PROD_HOST = 'https://prod.stpmex.com'
 
 
-class BaseClient:
+class Client:
     base_url: str
-
+    soap_url: str
     session: Session
     demo: bool
+
+    # resources
+    cuentas: ClassVar = CuentaFisica
+    cuentas_morales: ClassVar = CuentaMoral
+    ordenes: ClassVar = Orden
+    ordenes_v2: ClassVar = OrdenV2
+    saldos: ClassVar = Saldo
 
     def __init__(
         self,
@@ -57,6 +63,8 @@ class BaseClient:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
+        base_url: str = None,
+        soap_url: str = None,
         timeout: tuple = None,
         verify: Union[bool, str] = True,
     ):
@@ -66,9 +74,15 @@ class BaseClient:
         self.session.headers['User-Agent'] = f'stpmex-python/{client_version}'
         self.demo = demo
         if demo:
+            host_url = DEMO_HOST
             self.session.verify = False
         else:
+            host_url = PROD_HOST
             self.session.verify = True
+        self.base_url = base_url or f'{host_url}/speiws/rest'
+        self.soap_url = (
+            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
+        )
 
         try:
             self.pkey = serialization.load_pem_private_key(
@@ -147,39 +161,6 @@ class BaseClient:
         response.raise_for_status()
 
 
-class Client(BaseClient):
-    soap_url: str
-    # resources
-    cuentas: ClassVar = CuentaFisica
-    cuentas_morales: ClassVar = CuentaMoral
-    ordenes: ClassVar = Orden
-    ordenes_v2: ClassVar = OrdenEfws
-    saldos: ClassVar = Saldo
-
-    def __init__(
-        self,
-        empresa: str,
-        priv_key: str,
-        priv_key_passphrase: str,
-        demo: bool = False,
-        base_url: str = None,
-        soap_url: str = None,
-        timeout: tuple = None,
-        verify: Union[bool, str] = True,
-    ):
-        super().__init__(
-            empresa, priv_key, priv_key_passphrase, demo, timeout, verify
-        )
-        if demo:
-            host_url = DEMO_HOST
-        else:
-            host_url = PROD_HOST
-        self.base_url = base_url or f'{host_url}/speiws/rest'
-        self.soap_url = (
-            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
-        )
-
-
 def _raise_description_error_exc(resp: Dict) -> NoReturn:
     id = resp['resultado']['id']
     error = resp['resultado']['descripcionError']
@@ -231,7 +212,7 @@ def _raise_description_exc(resp: Dict) -> NoReturn:
         raise InvalidRfcOrCurp(**resp)
     elif id == 1 and re.match(r'El campo \w+ es invalido', desc):
         raise InvalidField(**resp)
-    elif id == 3 and desc == 'Cuenta Duplicada':
+    elif id == 3 and desc.lower() == 'cuenta duplicada':
         raise DuplicatedAccount(**resp)
     elif id == 5 and re.match(r'El campo .* obligatorio \w+', desc):
         raise MandatoryField(**resp)
@@ -241,8 +222,8 @@ def _raise_description_exc(resp: Dict) -> NoReturn:
 
 def _raise_message_error(resp: Dict) -> NoReturn:
     if resp['estado'] == 2:
-        raise BadRequest(**resp)
+        raise BadRequestError(**resp)
     if resp['estado'] == 6:
-        raise ResultsNotFound(**resp)
+        raise EmptyResultsError(**resp)
     else:
         raise StpmexException(**resp)
