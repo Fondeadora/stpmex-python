@@ -75,10 +75,8 @@ class Client:
         self.demo = demo
         if demo:
             host_url = DEMO_HOST
-            self.session.verify = False
         else:
             host_url = PROD_HOST
-            self.session.verify = True
         self.base_url = base_url or f'{host_url}/speiws/rest'
         self.soap_url = (
             soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
