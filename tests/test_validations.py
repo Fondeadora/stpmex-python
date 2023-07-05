@@ -126,7 +126,7 @@ def test_zero_referencia_numerica():
 
 def test_referencia_numerica_too_high():
     with pytest.raises(ValidationError) as exc_info:
-        create_orden(referenciaNumerica=10 ** 7)
+        create_orden(referenciaNumerica=10**7)
     errors = exc_info.value.errors()
     assert len(errors) == 1
     error = errors[0]

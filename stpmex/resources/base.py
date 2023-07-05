@@ -54,8 +54,8 @@ class Resource:
             if v is None:
                 v = None
             elif k.startswith('ts'):
-                v /= 10 ** 3  # convertir de milisegundos a segundos
-                if v > 10 ** 9:
+                v /= 10**3  # convertir de milisegundos a segundos
+                if v > 10**9:
                     v = dt.datetime.fromtimestamp(v)
             elif k == 'fechaOperacion':
                 v = strptime(v)
