@@ -32,7 +32,14 @@ source venv/bin/activate
 make test
 ```
 
+## Quick setup
+
+```
+bash bin/shell
+```
+
 ## Uso básico
+
 
 ```python
 import datetime as dt
@@ -65,7 +72,7 @@ cuenta_persona_moral = client.cuentas_morales.alta(
     rfcCurp='ABC200101AB0',
 )
 
-# Si deseas dar de alta una nueva clabe para la misma 
+# Si deseas dar de alta una nueva clabe para la misma
 # razón social, haces el mismo request sustituyendo `cuenta`
 # con la nueva clabe
 cuenta_persona_moral = client.cuentas_morales.alta(
