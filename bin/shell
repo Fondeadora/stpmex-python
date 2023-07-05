@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export $(<.env)
+
+PYTHONSTARTUP=scripts/bootstrap.py python

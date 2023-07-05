@@ -111,7 +111,7 @@ venv.bak/
 
 # environment variables
 .env
+env.sh
 
 # others
 .DS_Store
-
