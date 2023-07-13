@@ -214,23 +214,45 @@ class OrdenV2(Resource):
     _endpoint: ClassVar[str] = '/efws/API/consultaOrden'
 
     @classmethod
-    def consulta_clave_rastreo_enviada(
+    def consulta_clave_rastreo(
+        cls,
+        claveRastreo: str,
+        institucionOperante: Union[int, str],
+        fechaOperacion: Optional[dt.date] = None,
+    ) -> 'OrdenConsultada':  # noqa: F821
+        """
+
+        Based on:
+        https://stpmex.zendesk.com/hc/es/articles/4407474570139-Consulta-Orden
+        """
+        institucionOperante = int(institucionOperante)
+        if institucionOperante == STP_BANK_CODE:  # enviada
+            consulta_method = cls._consulta_clave_rastreo_enviada
+
+        else:  # recibida
+            consulta_method = cls._consulta_clave_rastreo_recibida
+        return consulta_method(
+            claveRastreo, institucionOperante, fechaOperacion
+        )
+
+    @classmethod
+    def _consulta_clave_rastreo_enviada(
         cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
     ):
-        return cls.consulta_orden(
+        return cls._consulta_orden(
             clave_rastreo, TipoOperacion.enviada, fecha_operacion
         )
 
     @classmethod
-    def consulta_clave_rastreo_recibida(
+    def _consulta_clave_rastreo_recibida(
         cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
     ):
-        return cls.consulta_orden(
+        return cls._consulta_orden(
             clave_rastreo, TipoOperacion.recibida, fecha_operacion
         )
 
     @classmethod
-    def consulta_orden(
+    def _consulta_orden(
         cls,
         clave_rastreo: str,
         tipo: TipoOperacion,
