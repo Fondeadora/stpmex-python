@@ -269,7 +269,6 @@ class OrdenV2(Resource):
         base_url = EFWS_PROD_HOST
         if cls._client.demo:
             base_url = EFWS_DEV_HOST
-        cls._client.base_url = base_url
 
-        resp = cls._client.post(cls._endpoint, consulta)
+        resp = cls._client.post(cls._endpoint, consulta, base_url=base_url)
         return cls._sanitize_consulta(resp['respuesta'])

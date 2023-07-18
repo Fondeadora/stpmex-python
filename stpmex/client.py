@@ -1,6 +1,6 @@
 import re
 from json import JSONDecodeError
-from typing import Any, ClassVar, Dict, List, NoReturn, Union
+from typing import Any, ClassVar, Dict, List, NoReturn, Optional, Union
 
 from cryptography.exceptions import UnsupportedAlgorithm
 from cryptography.hazmat.backends import default_backend
@@ -113,9 +113,11 @@ class Client:
         method: str,
         endpoint: str,
         data: Dict[str, Any],
+        base_url: Optional[str] = None,
         **kwargs: Any,
     ) -> Union[Dict[str, Any], List[Any]]:
-        url = self.base_url + endpoint
+        base_url = base_url or self.base_url
+        url = base_url + endpoint
         response = self.session.request(
             method,
             url,

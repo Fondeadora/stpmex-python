@@ -83,12 +83,14 @@ def test_consulta_orden_por_clave_rastreo(client):
 
 
 @pytest.mark.vcr
-def test_consulta_orden_por_clave_rastreo_efws(client):
+def test_consulta_orden_por_clave_rastreo_efws(client, mocker):
+    spy = mocker.spy(Client, 'post')
     orden = client.ordenes_v2.consulta_clave_rastreo(
         'CR1564969083', 90646, dt.date(2020, 4, 20)
     )
+    args, kwargs = spy.call_args
     assert orden.claveRastreo == 'W1397800050926686208'
-    assert client.base_url == 'https://efws-dev.stpmex.com'
+    assert kwargs['base_url'] == 'https://efws-dev.stpmex.com'
 
 
 @pytest.mark.vcr
