@@ -219,3 +219,13 @@ def test_account_registration(client) -> None:
     response = client.put(CUENTA_ENDPOINT, dict(firma='{hola}'))
     assert response['id'] == 0
     assert response['descripcion'] == 'Cuenta en revisión.'
+
+
+def test_client_demo_base_url():
+    client = Client('TAMIZI', PKEY, '12345678', demo=True)
+    assert client.base_url == 'https://demo.stpmex.com:7024/speiws/rest'
+
+
+def test_client_base_url():
+    client = Client('TAMIZI', PKEY, '12345678', demo=False)
+    assert client.base_url == 'https://prod.stpmex.com/speiws/rest'

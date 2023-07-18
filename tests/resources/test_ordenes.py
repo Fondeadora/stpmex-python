@@ -79,11 +79,21 @@ def test_consulta_orden_por_clave_rastreo(client):
         'CR1564969083', 90646, dt.date(2020, 4, 20)
     )
     assert orden.claveRastreo == 'CR1564969083'
+    assert client.base_url == 'https://demo.stpmex.com:7024/speiws/rest'
+
+
+@pytest.mark.vcr
+def test_consulta_orden_por_clave_rastreo_efws(client):
+    orden = client.ordenes_v2.consulta_clave_rastreo(
+        'CR1564969083', 90646, dt.date(2020, 4, 20)
+    )
+    assert orden.claveRastreo == 'W1397800050926686208'
+    assert client.base_url == 'https://efws-dev.stpmex.com'
 
 
 @pytest.mark.vcr
 def test_consulta_orden_por_clave_rastreo_enviada_efws(client):
-    orden = client.ordenes_v2.consulta_clave_rastreo_enviada(
+    orden = client.ordenes_v2._consulta_clave_rastreo_enviada(
         'CUENCA0000192923', dt.date(2023, 5, 18)
     )
     assert orden.claveRastreo == 'CUENCA0000192923'
@@ -91,7 +101,7 @@ def test_consulta_orden_por_clave_rastreo_enviada_efws(client):
 
 @pytest.mark.vcr
 def test_consulta_orden_recibida_por_clave_rastreo_efws(client):
-    orden = client.ordenes_v2.consulta_clave_rastreo_recibida(
+    orden = client.ordenes_v2._consulta_clave_rastreo_recibida(
         'APZ450057199641', dt.date(2023, 5, 17)
     )
     assert orden.claveRastreo == 'APZ450057199641'
@@ -101,7 +111,7 @@ def test_consulta_orden_recibida_por_clave_rastreo_efws(client):
 @pytest.mark.vcr
 def test_consulta_orden_recibida_por_clave_rastreo_not_found_efws(client):
     with pytest.raises(EmptyResultsError) as exc:
-        client.ordenes_v2.consulta_clave_rastreo_recibida(
+        client.ordenes_v2._consulta_clave_rastreo_recibida(
             'APZ11111111111', dt.date(2023, 5, 17)
         )
     assert exc.value.estado == 6
@@ -111,7 +121,7 @@ def test_consulta_orden_recibida_por_clave_rastreo_not_found_efws(client):
 @pytest.mark.vcr
 def test_consulta_orden_recibida_bad_request_efws(client):
     with pytest.raises(BadRequestError) as exc:
-        client.ordenes_v2.consulta_clave_rastreo_recibida('')
+        client.ordenes_v2._consulta_clave_rastreo_recibida('')
     assert exc.value.estado == 2
     assert exc.value.mensaje == (
         '{claveRastreo=el campo clave de rastreo no puede venir vacio}'
@@ -122,7 +132,7 @@ def test_consulta_orden_recibida_bad_request_efws(client):
 def test_consulta_orden_recibida_por_clave_rastreo_dia_operacion_efws(
     client,
 ):
-    orden = client.ordenes_v2.consulta_clave_rastreo_recibida(
+    orden = client.ordenes_v2._consulta_clave_rastreo_recibida(
         'TESTJSH5018035039'
     )
     assert orden.claveRastreo == 'TESTJSH5018035039'

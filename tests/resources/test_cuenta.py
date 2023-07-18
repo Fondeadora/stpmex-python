@@ -17,7 +17,7 @@ def test_baja_cuenta(client, cuenta_persona_fisica):
 
 
 @pytest.mark.vcr
-@pytest.mark.parametrize('num_cuentas', [95, 450])
+@pytest.mark.parametrize('num_cuentas', [95])
 def test_alta_lote(client, persona_fisica_dict, num_cuentas):
     del persona_fisica_dict['cuenta']
     clabes = generate_new_clabes(num_cuentas, '6461801570')

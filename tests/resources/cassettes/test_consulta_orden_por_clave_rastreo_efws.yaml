@@ -19,7 +19,7 @@ interactions:
     uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
   response:
     body:
-      string: '{"estado":1,"mensaje":"La firma es invalida"}'
+      string: '{"estado":0,"mensaje":"Datos consultados correctamente","respuesta":{"idEF":1452366,"claveRastreo":"W1397800050926686208","conceptoPago":"PRUEBA","cuentaBeneficiario":"646180123400000001","cuentaOrdenante":"012180321400000003","empresa":"EMPRESA","estado":"CCO","fechaOperacion":20220104,"institucionContraparte":40012,"institucionOperante":90646,"medioEntrega":1,"monto":1,"nombreBeneficiario":"Prueba Beneficiario","nombreOrdenante":"Prueba Ordenante","nombreCep":null,"rfcCep":"XXXX000000XXX","sello":null,"rfcCurpBeneficiario":null,"referenciaNumerica":401220,"rfcCurpOrdenante":"XXXX000000XXX","tipoCuentaBeneficiario":40,"tipoCuentaOrdenante":40,"tipoPago":1,"tsCaptura":1641321000363,"tsLiquidacion":1641321000363,"causaDevolucion":null,"urlCEP":"http://170.70.236.24:18080/cep/goi=90646&s=20210110.90646"}}'
     headers:
       Connection:
       - keep-alive
@@ -32,6 +32,6 @@ interactions:
       Transfer-Encoding:
       - chunked
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
 version: 1

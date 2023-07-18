@@ -45,7 +45,7 @@ PROD_HOST = 'https://prod.stpmex.com'
 
 
 class Client:
-    base_url: str
+    host_url: str
     soap_url: str
     session: Session
     demo: bool
@@ -63,7 +63,6 @@ class Client:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
-        base_url: str = None,
         soap_url: str = None,
         timeout: tuple = None,
         verify: Union[bool, str] = True,
@@ -77,7 +76,7 @@ class Client:
             host_url = DEMO_HOST
         else:
             host_url = PROD_HOST
-        self.base_url = base_url or f'{host_url}/speiws/rest'
+        self.base_url = f'{host_url}/speiws/rest'
         self.soap_url = (
             soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
         )
@@ -113,11 +112,13 @@ class Client:
         method: str,
         endpoint: str,
         data: Dict[str, Any],
-        base_url: Optional[str] = None,
+        host_url: Optional[str] = None,
         **kwargs: Any,
     ) -> Union[Dict[str, Any], List[Any]]:
-        base_url = base_url or self.base_url
-        url = base_url + endpoint
+        if not host_url:
+            url = self.base_url + endpoint
+        else:
+            url = host_url + endpoint
         response = self.session.request(
             method,
             url,
