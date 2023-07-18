@@ -237,7 +237,7 @@ class OrdenV2(Resource):
 
     @classmethod
     def _consulta_clave_rastreo_enviada(
-        cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
+        cls, clave_rastreo: str, institucion_operante: str, fecha_operacion: Optional[dt.date] = None
     ):
         return cls._consulta_orden(
             clave_rastreo, TipoOperacion.enviada, fecha_operacion
@@ -245,7 +245,7 @@ class OrdenV2(Resource):
 
     @classmethod
     def _consulta_clave_rastreo_recibida(
-        cls, clave_rastreo: str, fecha_operacion: Optional[dt.date] = None
+        cls, clave_rastreo: str, institucion_operante: str,fecha_operacion: Optional[dt.date] = None
     ):
         return cls._consulta_orden(
             clave_rastreo, TipoOperacion.recibida, fecha_operacion
