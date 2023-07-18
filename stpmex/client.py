@@ -45,7 +45,7 @@ PROD_HOST = 'https://prod.stpmex.com'
 
 
 class Client:
-    host_url: str
+    base_url: str
     soap_url: str
     session: Session
     demo: bool
@@ -112,13 +112,9 @@ class Client:
         method: str,
         endpoint: str,
         data: Dict[str, Any],
-        host_url: Optional[str] = None,
         **kwargs: Any,
     ) -> Union[Dict[str, Any], List[Any]]:
-        if not host_url:
-            url = self.base_url + endpoint
-        else:
-            url = host_url + endpoint
+        url = self.base_url + endpoint
         response = self.session.request(
             method,
             url,
