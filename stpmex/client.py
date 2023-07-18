@@ -1,6 +1,6 @@
 import re
 from json import JSONDecodeError
-from typing import Any, ClassVar, Dict, List, NoReturn, Optional, Union
+from typing import Any, ClassVar, Dict, List, NoReturn, Union
 
 from cryptography.exceptions import UnsupportedAlgorithm
 from cryptography.hazmat.backends import default_backend
@@ -63,6 +63,7 @@ class Client:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
+        base_url: str = None,
         soap_url: str = None,
         timeout: tuple = None,
         verify: Union[bool, str] = True,
