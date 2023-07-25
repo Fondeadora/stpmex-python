@@ -3,7 +3,6 @@ from typing import ClassVar, List
 
 from pydantic.dataclasses import dataclass
 
-from ..auth import compute_signature
 from .base import Resource
 
 EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
