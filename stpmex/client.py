@@ -31,6 +31,7 @@ from .exc import (
     StpmexException,
 )
 from .resources import (
+    Banco,
     CuentaFisica,
     CuentaMoral,
     Orden,
@@ -56,6 +57,7 @@ class Client:
     ordenes: ClassVar = Orden
     ordenes_v2: ClassVar = OrdenV2
     saldos: ClassVar = Saldo
+    bancos: ClassVar = Banco
 
     def __init__(
         self,

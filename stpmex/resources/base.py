@@ -45,6 +45,13 @@ class Resource:
         )
         return compute_signature(cls._client.pkey, joined)
 
+    @classmethod
+    def _firma_consulta_empresa_efws(cls):
+        joined = (
+            f"||{cls.empresa}||"
+        )
+        return compute_signature(cls._client.pkey, joined)
+
     @staticmethod
     def _sanitize_consulta(
         orden: Dict[str, Any]

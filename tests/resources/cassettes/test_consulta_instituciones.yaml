@@ -1,0 +1,32 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "firma": "PIjV3hH8nebBlfvB5IZyjDfCuIwCeHKj4Gc0+uhUgwKbCYZjfRW6+Qa22n8CNhoZLZZe15jdSnjcT7g4UHIfmIPdv3iJlix/OVM/FzOIXL0lBrn40NTaJeBrqNZMKS5dMBPqc8NDib1IsoV7NZlUcfMa4JsDdQe3HQ8dRm7yZMc="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '680'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.5.7
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaInstituciones
+  response:
+    body:
+      string: '{"estado":0,"mensaje":"Datos consultados correctamente","datos":[{"estado":"D","clave":"90632","participante":"BULLITICK CB"},{"estado":"C","clave":"90647","participante":"TELECOMM"}]}'
+    headers:
+      Content-Length:
+      - '45'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 05 Sep 2020 19:37:48 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
