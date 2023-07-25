@@ -3,6 +3,7 @@ from typing import ClassVar, List
 
 from pydantic.dataclasses import dataclass
 
+from ..auth import compute_signature
 from .base import Resource
 
 EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
@@ -31,9 +32,8 @@ class Banco(Resource):
     def consulta_instituciones(cls) -> List['Banco']:  # noqa: F821
         consulta = dict(
             empresa=cls.empresa,
+            firma=cls._firma_consulta_instituciones_efws(),
         )
-
-        consulta['firma'] = cls._firma_consulta_empresa_efws()
         base_url = EFWS_PROD_HOST
         if cls._client.demo:
             base_url = EFWS_DEV_HOST

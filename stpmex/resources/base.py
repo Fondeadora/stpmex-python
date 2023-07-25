@@ -46,10 +46,8 @@ class Resource:
         return compute_signature(cls._client.pkey, joined)
 
     @classmethod
-    def _firma_consulta_empresa_efws(cls):
-        joined = (
-            f"||{cls.empresa}||"
-        )
+    def _firma_consulta_instituciones_efws(cls):
+        joined = f"||{cls.empresa}||"
         return compute_signature(cls._client.pkey, joined)
 
     @staticmethod
