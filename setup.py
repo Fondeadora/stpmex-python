@@ -27,7 +27,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data=dict(stpmex=['py.typed']),
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=install_requires,
     classifiers=[
         'Programming Language :: Python :: 3',
