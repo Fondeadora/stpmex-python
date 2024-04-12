@@ -68,7 +68,7 @@ class Orden(Resource):
 
     prioridad: int = Prioridad.normal.value
     medioEntrega: int = 3
-    tipoPago: int = 1
+    tipoPago: int = 30
     topologia: str = 'T'
     iva: Optional[float] = None
 
