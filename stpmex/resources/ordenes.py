@@ -73,6 +73,10 @@ class Orden(Resource):
 
     id: Optional[int] = None
 
+    nombreParticipanteIndirecto: constr(max_length=40) = None
+    cuentaParticipanteIndirecto: Clabe = None
+    rfcParticipanteIndirecto: constr(max_length=18) = None
+
     def __post_init__(self):
         cb = self.cuentaBeneficiario
         self.tipoCuentaBeneficiario = self.get_tipo_cuenta(cb)

@@ -69,10 +69,36 @@ def orden_dict():
         iva=None,
     )
 
+@pytest.fixture
+def orden_indirecta_dict():
+    yield dict(
+        institucionContraparte='40072',
+        claveRastreo='CR1564969083',
+        monto=1.2,
+        tipoPago=1,
+        nombreOrdenante=None,
+        cuentaOrdenante='646180110400000007',
+        rfcCurpOrdenante=None,
+        nombreBeneficiario='Ricardo Sanchez',
+        cuentaBeneficiario='072691004495711499',
+        rfcCurpBeneficiario='ND',
+        conceptoPago='Prueba',
+        referenciaNumerica=5273144,
+        topologia='T',
+        medioEntrega=3,
+        iva=None,
+        nombreParticipanteIndirecto='AMU',
+        cuentaParticipanteIndirecto='646180157099999993',
+        rfcParticipanteIndirecto='WDCT680526LI0',
+    )
 
 @pytest.fixture
 def orden(client, orden_dict):
     yield Orden(**orden_dict)
+
+@pytest.fixture
+def orden_indirecta(client, orden_indirecta_dict):
+    yield Orden(**orden_indirecta_dict)
 
 
 @pytest.fixture
