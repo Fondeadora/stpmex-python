@@ -1,0 +1,42 @@
+interactions:
+  - request:
+      body:
+        '{"empresa": "TAMIZI", "page": 0, "tipoOrden": "E", "fechaOperacion": "",
+        "firma": "l/20VNMdniB+zLafLBM2nh5vb6QWBuvAW9Hc7LifChd/U+juWLrEEeBeJUEqQGLNlUuZNUT3OgSrqIOrjEKQMy1o0k0O4O2+7qv5fpyTFGaJ0m7R5jGebJI8SxWRr5gWskKUzkHFBZ4USxvDL/MteQdBh51BZWona+wutvcrdvE="}'
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "257"
+        Content-Type:
+          - application/json
+        User-Agent:
+          - stpmex-python/3.12.0
+      method: POST
+      uri: https://efws-dev.stpmex.com/efws/API/V2/conciliacion
+    response:
+      body:
+        string: '{"estado": 0,"mensaje": "Datos consultados correctamente","datos": [{"idEF": 1245213, "claveRastreo": "PruebaJerry", "claveRastreoDevolucion": "COP20201234567895 ", "conceptoPago": "PRUEBA JERRY", "cuentaBeneficiario": "6461800000123749", "cuentaOrdenante": "646180126202948362", "empresa": "DAE", "estado": "CCO", "fechaOperacion": 20220111, "institucionContraparte": 90646, "institucionOperante": 90646, "medioEntrega": 1, "monto": 0.01, "nombreBeneficiario": "PREUABA", "nombreOrdenante": "Prueba", "nombreCep": null, "rfcCep": "ND", "sello": null, "rfcCurpBeneficiario": null, "referenciaNumerica": 4197736, "rfcCurpOrdenante": "RFC001100", "tipoCuentaBeneficiario": 40, "tipoCuentaOrdenante": 40, "tipoPago": 1, "tsCaptura": 1641925846953, "tsLiquidacion": 1641925846953, "causaDevolucion": null, "urlCEP": "https://www.banxico.org.mx/cep/go?i=90646&s=20210110.90646" }], "total": 1}'
+      headers:
+        Connection:
+          - keep-alive
+        Content-Type:
+          - application/json
+        Date:
+          - Wed, 15 May 2024 22:44:55 GMT
+        Server:
+          - nginx
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+          - Access-Control-Request-Method
+          - Access-Control-Request-Headers
+      status:
+        code: 200
+        message: OK
+version: 1

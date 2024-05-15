@@ -33,6 +33,7 @@ from .exc import (
 )
 from .resources import (
     Banco,
+    Conciliacion,
     CuentaFisica,
     CuentaMoral,
     Orden,
@@ -59,6 +60,7 @@ class Client:
     ordenes_v2: ClassVar = OrdenV2
     saldos: ClassVar = Saldo
     bancos: ClassVar = Banco
+    conciliacion: ClassVar = Conciliacion
 
     def __init__(
         self,
@@ -119,6 +121,7 @@ class Client:
     ) -> Union[Dict[str, Any], List[Any]]:
         base_url = base_url or self.base_url
         url = base_url + endpoint
+
         response = self.session.request(
             method,
             url,
@@ -126,8 +129,10 @@ class Client:
             timeout=self.timeout,
             **kwargs,
         )
+
         self._check_response(response)
         resultado = response.json()
+
         if 'resultado' in resultado:  # Some responses are enveloped
             resultado = resultado['resultado']
         return resultado

@@ -69,6 +69,7 @@ def orden_dict():
         iva=None,
     )
 
+
 @pytest.fixture
 def orden_indirecta_dict():
     yield dict(
@@ -92,9 +93,11 @@ def orden_indirecta_dict():
         rfcParticipanteIndirecto='WDCT680526LI0',
     )
 
+
 @pytest.fixture
 def orden(client, orden_dict):
     yield Orden(**orden_dict)
+
 
 @pytest.fixture
 def orden_indirecta(client, orden_indirecta_dict):

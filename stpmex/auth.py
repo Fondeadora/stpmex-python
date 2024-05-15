@@ -1,6 +1,6 @@
 from base64 import b64encode
 from enum import Enum
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey

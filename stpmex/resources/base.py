@@ -1,6 +1,6 @@
 import datetime as dt
 from dataclasses import asdict, make_dataclass
-from typing import Any, ClassVar, Dict, List, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List
 
 from ..auth import compute_signature, join_fields
 from ..types import Estado

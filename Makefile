@@ -1,6 +1,6 @@
 SHELL := bash
 PATH := ./venv/bin:${PATH}
-PYTHON = python3.8
+PYTHON = python3.12
 PROJECT = stpmex
 
 

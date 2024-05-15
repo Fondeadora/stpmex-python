@@ -1,5 +1,6 @@
 __all__ = [
     'Banco',
+    'Conciliacion',
     'CuentaFisica',
     'CuentaMoral',
     'EstadoBanco',
@@ -11,6 +12,7 @@ __all__ = [
 
 from .bancos import Banco, EstadoBanco
 from .base import Resource
+from .conciliacion import Conciliacion
 from .cuentas import CuentaFisica, CuentaMoral
 from .ordenes import Orden, OrdenV2
 from .saldos import Saldo

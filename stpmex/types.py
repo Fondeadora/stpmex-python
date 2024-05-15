@@ -89,6 +89,7 @@ class Estado(str, Enum):
     traspaso_autorizado = 'TA'
     traspaso_liquidado = 'TLQ'
     traspaso_cancelado = 'TCL'
+    traspaso_devuelto = 'TD'
     recibida = 'R'
     por_devolver = 'XD'
     devuelta = 'D'
