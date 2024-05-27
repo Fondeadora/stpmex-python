@@ -41,11 +41,13 @@ def test_compute_signature(client, orden):
     assert sig == firma
 
 
-def test_compute_signature_indirecta(client, orden):
+def test_compute_signature_indirecta(client, orden_indirecta):
     firma = (
-        'CLcckJl2Xv775aKhYu4NZoU5fRXMtIyuZjoG+CXvpxwETj8PixZrTqf3Ckzes+3QeFSUK/'
-        'ilGMnxH5Btry7sSV7UyKUXcQ6j8d2VxNJdkPmlXWg0QMAD+h4MLym70P/sBV+2/5NT0wvvZ'
-        'yn6y7wKO1VlHij9UwL8JM9rVDYOjBs='
+        'zjAbOxc0952Kk+wApZrlwykMVL9pZynECPOJrRj6gGa8lAI4Jn25paBLRkYS73Kd650ky'
+        'SE1Nvrhxh4uFGeT9dI/nJ9e0uoc99Pwclbnik8bXPuQaEVqcAdoubrfLs3v+LYFO+Vmp8'
+        'VSvhirr/XCGI999s5uCIS2IzNcfJSHfbg='
     )
-    sig = compute_signature(client.pkey, join_fields(orden, ORDEN_INDIRECTA_FIELDNAMES))
+    sig = compute_signature(
+        client.pkey, join_fields(orden_indirecta, ORDEN_INDIRECTA_FIELDNAMES)
+    )
     assert sig == firma

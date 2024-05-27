@@ -49,6 +49,26 @@ def test_strict_pos_float(monto, msg: str, orden_dict: Dict[str, Any]):
     assert msg in str(exc.value)
 
 
+def test_firma(client: Client, orden_dict: Dict[str, Any]):
+    orden = Orden(**orden_dict)
+
+    assert orden.firma == (
+        'KDNKDVVuyNt9oTXPAlofGXGH5L5IH9PAzOsx0JZFtmGlU+10QRf2RHSg0OVCnYYpu5sC3'
+        'DJ6vlXuYM40+uNw0tMc0y8Dv26uO8Vv2GhOhMqaGk72LwgwgmqVg17xzjgGbJHzAzMav3'
+        'fx4/3No+mSnf7vxpe4ePf6yK1yU5U28L4='
+    )
+
+
+def test_firma_indirecta(client: Client, orden_indirecta_dict: Dict[str, Any]):
+    orden = Orden(**orden_indirecta_dict)
+
+    assert orden.firma == (
+        'zjAbOxc0952Kk+wApZrlwykMVL9pZynECPOJrRj6gGa8lAI4Jn25paBLRkYS73Kd650ky'
+        'SE1Nvrhxh4uFGeT9dI/nJ9e0uoc99Pwclbnik8bXPuQaEVqcAdoubrfLs3v+LYFO+Vmp8'
+        'VSvhirr/XCGI999s5uCIS2IzNcfJSHfbg='
+    )
+
+
 @pytest.mark.vcr
 def test_consulta_ordenes_enviadas(client):
     enviadas = client.ordenes.consulta_enviadas()

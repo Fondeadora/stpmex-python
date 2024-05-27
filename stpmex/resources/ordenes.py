@@ -13,8 +13,6 @@ from pydantic.dataclasses import dataclass
 from ..auth import (
     ORDEN_FIELDNAMES,
     ORDEN_INDIRECTA_FIELDNAMES,
-    compute_signature,
-    join_fields,
 )
 from ..exc import NoOrdenesEncontradas
 from ..types import (
@@ -92,15 +90,10 @@ class Orden(Resource):
 
     @property
     def firma(self):
-        """
-        Based on:
-        https://stpmex.zendesk.com/hc/es/articles/360002796012-Firmas-Electr%C3%B3nicas-
-        """
         if self.tipoPago == 30:
-            joined_fields = join_fields(self, ORDEN_INDIRECTA_FIELDNAMES)
-        else:
-            joined_fields = join_fields(self, ORDEN_FIELDNAMES)
-        return compute_signature(self._client.pkey, joined_fields)
+            self._firma_fieldnames = ORDEN_INDIRECTA_FIELDNAMES
+
+        return super().firma
 
     @staticmethod
     def get_tipo_cuenta(cuenta: str) -> Optional[TipoCuenta]:

@@ -54,45 +54,14 @@ ORDEN_FIELDNAMES = """
     iva
     """.split()
 
-ORDEN_INDIRECTA_FIELDNAMES = """
-    institucionContraparte
-    empresa
-    fechaOperacion
-    folioOrigen
-    claveRastreo
-    institucionOperante
-    monto
-    tipoPago
-    tipoCuentaOrdenante
-    nombreOrdenante
-    cuentaOrdenante
-    rfcCurpOrdenante
-    tipoCuentaBeneficiario
-    nombreBeneficiario
-    cuentaBeneficiario
-    rfcCurpBeneficiario
-    emailBeneficiario
-    tipoCuentaBeneficiario2
-    nombreBeneficiario2
-    cuentaBeneficiario2
-    rfcCurpBeneficiario2
-    conceptoPago
-    conceptoPago2
-    claveCatUsuario1
-    claveCatUsuario2
-    clavePago
-    referenciaCobranza
-    referenciaNumerica
-    tipoOperacion
-    topologia
-    usuario
-    medioEntrega
-    prioridad
-    iva
+ORDEN_INDIRECTA_FIELDNAMES = (
+    ORDEN_FIELDNAMES
+    + """
     nombreParticipanteIndirecto
     cuentaParticipanteIndirecto
     rfcParticipanteIndirecto
     """.split()
+)
 SIGN_DIGEST = 'RSA-SHA256'
 
 
