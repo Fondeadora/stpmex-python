@@ -6,15 +6,16 @@ from typing import ClassVar, List, Optional, Union
 
 import clabe
 from clabe.types import Clabe
-from cuenca_validations.types import (
-    PaymentCardNumber,
-    StrictPositiveFloat,
-    digits,
-)
+from cuenca_validations.types import PaymentCardNumber, StrictPositiveFloat, digits
 from pydantic import conint, constr, validator
 from pydantic.dataclasses import dataclass
 
-from ..auth import ORDEN_FIELDNAMES
+from ..auth import (
+    ORDEN_FIELDNAMES,
+    ORDEN_INDIRECTA_FIELDNAMES,
+    compute_signature,
+    join_fields,
+)
 from ..exc import NoOrdenesEncontradas
 from ..types import (
     BeneficiarioClabe,
@@ -88,6 +89,18 @@ class Orden(Resource):
         resp = orden._client.put(endpoint, orden.to_dict())
         orden.id = resp['id']
         return orden
+
+    @property
+    def firma(self):
+        """
+        Based on:
+        https://stpmex.zendesk.com/hc/es/articles/360002796012-Firmas-Electr%C3%B3nicas-
+        """
+        if self.tipoPago == 30:
+            joined_fields = join_fields(self, ORDEN_INDIRECTA_FIELDNAMES)
+        else:
+            joined_fields = join_fields(self, ORDEN_FIELDNAMES)
+        return compute_signature(self._client.pkey, joined_fields)
 
     @staticmethod
     def get_tipo_cuenta(cuenta: str) -> Optional[TipoCuenta]:

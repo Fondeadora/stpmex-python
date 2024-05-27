@@ -76,7 +76,7 @@ def orden_indirecta_dict():
         institucionContraparte='40072',
         claveRastreo='CR1564969083',
         monto=1.2,
-        tipoPago=1,
+        tipoPago=30,
         nombreOrdenante=None,
         cuentaOrdenante='646180110400000007',
         rfcCurpOrdenante=None,
