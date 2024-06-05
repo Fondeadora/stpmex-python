@@ -1,4 +1,4 @@
-cryptography==42.0.7
+cryptography==42.0.8
 cuenca-validations==0.11.27
 requests>=2.27
 workalendar==17.0.0
