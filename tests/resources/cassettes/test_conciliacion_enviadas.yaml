@@ -15,7 +15,7 @@ interactions:
         Content-Type:
           - application/json
         User-Agent:
-          - stpmex-python/3.12.0
+          - stpmex-python/3.12.1
       method: POST
       uri: https://efws-dev.stpmex.com/efws/API/V2/conciliacion
     response:
