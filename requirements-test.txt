@@ -1,4 +1,4 @@
-importlib-metadata==8.3.0
+importlib-metadata==8.4.0
 mypy==1.11.1
 pytest==8.3.*
 pytest-vcr==1.0.*
